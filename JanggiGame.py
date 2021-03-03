@@ -1,8 +1,7 @@
 # Dan Wu
 # 3/2/2021
 # Portfolio : Write a class named JanggiGame for playing an abstract board game called Janggi.
-# coding: utf-8
-from abc import ABC
+
 from typing import List, Tuple, Any
 
 RED = 1
