@@ -1,6 +1,7 @@
 # Dan Wu
 # 3/2/2021
 # Portfolio : Write a class named JanggiGame for playing an abstract board game called Janggi.
+# coding: utf-8
 from abc import ABC
 from typing import List, Tuple, Any
 
@@ -42,7 +43,7 @@ class JanggiGame:
     """
     ==== Private Attributes ====
     _turn:
-      RED or BLUE, represents whose turn to move
+      RED or BLUE, represent whose turn to move
     _board:
       List[List[Piece]] used to store the piece on board
     """
@@ -174,15 +175,18 @@ class Piece:
     This class is a abstract class, can not create a usable instance of this
     class.
 
-
+    ==== Private Attributes ====
+    _row:
+      row number of this piece
+    _col:
+      column number of this piece
+    _color:
+      BLUE or RED, represent which player this piece belongs
     """
 
     _row: int
-        """row index of this piece"""
     _col: int
-        """column index of this piece"""
     _color: int
-        """BLUE or RED, represent which player this piece belongs"""
 
     def __init__(self, row: int, col: int,
                  color: int) -> None:
