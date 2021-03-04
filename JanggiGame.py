@@ -1,6 +1,4 @@
-# coding: utf-8
-from abc import ABC
-from typing import List, Tuple, Any
+from typing import List, Any
 
 RED = 1
 BLUE = 2
@@ -70,9 +68,13 @@ class JanggiGame:
         player's next move.
         """
         if player == 'red':
+            if self._turn == RED:
+                return False
             general = self._find_general(RED)
             opponent_pieces = self._collect_all_piece(BLUE)
         else:
+            if self._turn == BLUE:
+                return False
             general = self._find_general(BLUE)
             opponent_pieces = self._collect_all_piece(RED)
 
@@ -83,7 +85,7 @@ class JanggiGame:
         return False
 
     def make_move(self, from_square, to_square):
-        print(f'{from_square} {to_square}')
+        # print(f'{from_square} {to_square}')
         if from_square == to_square:
             self._change_turn()
             return True
@@ -163,6 +165,23 @@ class JanggiGame:
                 self._board[3][i] = Soldier(3, i, RED)
                 self._board[6][i] = Soldier(6, i, BLUE)
 
+    def print_board(self):
+        print(f"It's {'Blue' if self._turn==RED else 'Red'} turn.")
+        line = "  |"
+        for i in range(9):
+            line += f"-0{i}-|"
+        print(line)
+        for row_number, row in zip(range(10), self._board):
+            line = f"{row_number} |"
+            for p in row:
+                line += "-"
+                if p is None:
+                    line += "NN"
+                else:
+                    line += p.__str__()
+                line += "-|"
+            print(line)
+        print()
 
 class Piece:
     """ Piece of the game, there are seven kinds of pieces in Janggi game,
@@ -251,6 +270,9 @@ class General(Piece):
         return [[(-1, -1)], [(-1, 0)], [(-1, 1)], [(0, 1)],
                 [(1, 1)], [(1, 0)], [(1, -1)], [(0, -1)]]
 
+    def __str__(self):
+        return f"G{'R' if self._color == RED else 'B'}"
+
 
 # 士
 class Guard(Piece):
@@ -278,6 +300,9 @@ class Guard(Piece):
         return [[(-1, -1)], [(-1, 0)], [(-1, 1)], [(0, 1)],
                 [(1, 1)], [(1, 0)], [(1, -1)], [(0, -1)]]
 
+    def __str__(self):
+        return f"S{'R' if self._color == RED else 'B'}"
+
 
 # 马
 class Horse(Piece):
@@ -304,6 +329,9 @@ class Horse(Piece):
                 [(0, 1), (-1, 1)], [(0, 1), (1, 1)],
                 [(1, 0), (1, 1)], [(1, 0), (1, -1)],
                 [(0, -1), (-1, -1)], [(0, -1), (1, -1)]]
+
+    def __str__(self):
+        return f"H{'R' if self._color == RED else 'B'}"
 
 
 # 象
@@ -335,6 +363,9 @@ class Elephant(Piece):
                 [(1, 0), (1, -1), (1, -1)],
                 [(0, -1), (1, -1), (1, -1)],
                 [(0, -1), (-1, -1), (-1, -1)]]
+
+    def __str__(self):
+        return f"E{'R' if self._color == RED else 'B'}"
 
 
 # 车
@@ -374,6 +405,9 @@ class Chariot(Piece):
             return False
 
         return True
+
+    def __str__(self):
+        return f"C{'R' if self._color == RED else 'B'}"
 
 
 # 炮
@@ -425,6 +459,9 @@ class Cannon(Piece):
 
         return True
 
+    def __str__(self):
+        return f"P{'R' if self._color == RED else 'B'}"
+
 
 # 卒
 class Soldier(Piece):
@@ -464,6 +501,8 @@ class Soldier(Piece):
 
         return True
 
+    def __str__(self):
+        return f"Z{'R' if self._color == RED else 'B'}"
 
 
 if __name__ == '__main__':
@@ -480,9 +519,16 @@ if __name__ == '__main__':
     game.make_move('a4', 'a4')  # this will pass the Red's turn and return True"""
 
     game = JanggiGame()
+    game.print_board()
 
+    moves = []
     for i in range(18):
         m = input()
-        game.make_move(m[:2], m[2:])
+        moves.append(m)
+
+    for m in moves:
+        ms = m.split(" ")
+        game.make_move(ms[0], ms[1])
+        game.print_board()
     print("\n")
     print(game.is_in_check('blue'))
