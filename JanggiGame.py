@@ -83,7 +83,7 @@ class JanggiGame:
         return False
 
     def make_move(self, from_square, to_square):
-        # print(f'{from_square} {to_square}')
+        print(f'{from_square} {to_square}')
         if from_square == to_square:
             self._change_turn()
             return True
