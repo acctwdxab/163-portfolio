@@ -478,10 +478,3 @@ if __name__ == '__main__':
     game.make_move('c7', 'd7')  # should return True
     game.make_move('a4', 'a4')  # this will pass the Red's turn and return True"""
 
-    game = JanggiGame()
-
-    for i in range(18):
-        m = input()
-        game.make_move(m[:2], m[2:])
-    print("\n")
-    print(game.is_in_check('blue'))
