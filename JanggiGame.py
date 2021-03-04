@@ -68,13 +68,13 @@ class JanggiGame:
         player's next move.
         """
         if player == 'red':
-            if self._turn == RED:
-                return False
+            """if self._turn == RED:
+                return False"""
             general = self._find_general(RED)
             opponent_pieces = self._collect_all_piece(BLUE)
         else:
-            if self._turn == BLUE:
-                return False
+            """if self._turn == BLUE:
+                return False"""
             general = self._find_general(BLUE)
             opponent_pieces = self._collect_all_piece(RED)
 
@@ -85,7 +85,7 @@ class JanggiGame:
         return False
 
     def make_move(self, from_square, to_square):
-        print(f'{from_square} {to_square}')
+        # print(f'{from_square} {to_square}')
         if from_square == to_square:
             self._change_turn()
             return True
@@ -166,7 +166,7 @@ class JanggiGame:
                 self._board[6][i] = Soldier(6, i, BLUE)
 
     def print_board(self):
-        print(f"It's {'Blue' if self._turn==RED else 'Red'} turn.")
+        print(f"It's {'Blue' if self._turn == RED else 'Red'} turn.")
         line = "  |"
         for i in range(9):
             line += f"-0{i}-|"
@@ -182,6 +182,7 @@ class JanggiGame:
                 line += "-|"
             print(line)
         print()
+
 
 class Piece:
     """ Piece of the game, there are seven kinds of pieces in Janggi game,
@@ -237,9 +238,13 @@ class Piece:
     def get_color(self):
         return self._color
 
-    def in_palace(self):
-        return (0 <= self._row <= 2 or 7 <= self._row <= 9) \
-               and 3 <= self._col <= 5
+    def in_same_palace(self, to_row, to_col):
+        if not _in_palace(self._row, self._col) or not _in_palace(to_row, to_col):
+            return False
+        if (0 <= self._row <= 2 and 7 <= to_row <= 9) or \
+                (7 <= self._row <= 9 and 0 <= to_row <= 2):
+            return False
+        return True
 
     def get_pos(self):
         return self._row, self._col
@@ -391,6 +396,9 @@ class Chariot(Piece):
                     return False
             return True
 
+        if not self.in_same_palace(to_row, to_col):
+            return False
+
         if (self._row, self._col) not in possible_move_in_palace:
             return False
 
@@ -444,7 +452,10 @@ class Cannon(Piece):
                     continue
             return has_piece_between
 
-        if not self.in_palace() or not _in_palace(to_row, to_col):
+        if not self.in_same_palace(to_row, to_col):
+            return False
+
+        if (self._row, self._col) not in possible_move_in_palace:
             return False
 
         possible_mov = possible_move_in_palace[(self._row, self._col)]
@@ -485,7 +496,10 @@ class Soldier(Piece):
 
             return abs(to_row - self._row) == 1
 
-        if not self.in_palace() or not _in_palace(to_row, to_col):
+        if not self.in_same_palace(to_row, to_col):
+            return False
+
+        if (self._row, self._col) not in possible_move_in_palace:
             return False
 
         possible_mov = possible_move_in_palace[(self._row, self._col)]
@@ -522,7 +536,7 @@ if __name__ == '__main__':
     game.print_board()
 
     moves = []
-    for i in range(18):
+    for i in range(19):
         m = input()
         moves.append(m)
 
