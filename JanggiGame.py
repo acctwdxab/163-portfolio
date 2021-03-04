@@ -1,7 +1,5 @@
-# Dan Wu
-# 3/2/2021
-# Portfolio : Write a class named JanggiGame for playing an abstract board game called Janggi.
-
+# coding: utf-8
+from abc import ABC
 from typing import List, Tuple, Any
 
 RED = 1
@@ -86,6 +84,7 @@ class JanggiGame:
 
     def make_move(self, from_square: str,
                   to_square: str) -> bool:
+        print(f'{from_square}{to_square}')
         if from_square == to_square:
             self._change_turn()
             return True
