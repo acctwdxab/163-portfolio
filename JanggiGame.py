@@ -1,3 +1,9 @@
+# Dan Wu
+# 3/10/2021
+# Project -  Create a JanggiGame, including the starting position of the pieces, and the 9×10 gameboard.
+
+
+
 from typing import List, Any
 
 RED = 1
@@ -21,16 +27,19 @@ COL_REPR = 'abcdefghi'
 
 
 def _is_valid_position(row, col):
+    """to set the board length and width"""
     return 0 <= row <= 9 and 0 <= col <= 8
 
 
 def _in_palace(row, col):
+    """setting the palace size"""
     if col < 3 or col > 5:
         return False
     return (0 <= row <= 2) or (7 <= row <= 9)
 
 
 def _parse_square(square):
+    """setting the movement rules"""
     return int(square[1:]) - 1, COL_REPR.index(square[0])
 
 
@@ -64,8 +73,8 @@ class JanggiGame:
         return "RED_WON"
 
     def is_in_check(self, player):
-        """ A general is in check if it could be captured on the opposing
-        player's next move.
+        """ takes as a parameter either 'red' or 'blue' and returns True if that player is in check,
+        but returns False otherwise.
         """
         if player == 'red':
             """if self._turn == RED:
@@ -85,6 +94,8 @@ class JanggiGame:
         return False
 
     def make_move(self, from_square, to_square):
+        """To simulate the movement of pieces, that takes two parameters -
+        strings that represent the square to move from and the square to move to."""
         # print(f'{from_square} {to_square}')
         if from_square == to_square:
             self._change_turn()
@@ -105,9 +116,11 @@ class JanggiGame:
         return move_result
 
     def _change_turn(self):
+        """To simulate the turn of players"""
         self._turn = RED if self._turn == BLUE else BLUE
 
     def _collect_all_piece(self, color):
+
         pieces = []
         for i in range(NUM_OF_ROW):
             for j in range(NUM_OF_COL):
@@ -128,6 +141,8 @@ class JanggiGame:
         return None
 
     def _init_board(self):
+        """to simulate initiating chariot elephant horse guard general cannon all elements,
+        starting position of the pieces, and the 9×10 gameboard."""
         for i in range(NUM_OF_ROW):
             self._board.append([None for i in range(NUM_OF_COL)])
 
@@ -187,11 +202,7 @@ class JanggiGame:
 class Piece:
     """ Piece of the game, there are seven kinds of pieces in Janggi game,
     every piece has a initial position and initial color which represent the
-    player it belongs, and each type of piece has its own rules.
-
-    This class is a abstract class, can not create a usable instance of this
-    class.
-
+    player it belongs, and each type of piece has its own rules
     ==== Private Attributes ====
     _row:
       row number of this piece
@@ -250,9 +261,10 @@ class Piece:
         return self._row, self._col
 
 
-# 将
-class General(Piece):
 
+class General(Piece):
+    """The Piece class takes the rank, side, and the position of the piece as
+inputs."""
     def __init__(self, row, col, color):
         super().__init__(row, col, color)
 
@@ -279,9 +291,10 @@ class General(Piece):
         return f"G{'R' if self._color == RED else 'B'}"
 
 
-# 士
-class Guard(Piece):
 
+class Guard(Piece):
+    """The Piece class takes the rank, side, and the position of the piece as
+  inputs."""
     def __init__(self, row, col, color):
         super().__init__(row, col, color)
 
@@ -309,9 +322,10 @@ class Guard(Piece):
         return f"S{'R' if self._color == RED else 'B'}"
 
 
-# 马
-class Horse(Piece):
 
+class Horse(Piece):
+    """The Piece class takes the rank, side, and the position of the piece as
+  inputs."""
     def __init__(self, row, col, color):
         super().__init__(row, col, color)
 
@@ -339,9 +353,10 @@ class Horse(Piece):
         return f"H{'R' if self._color == RED else 'B'}"
 
 
-# 象
-class Elephant(Piece):
 
+class Elephant(Piece):
+    """The Piece class takes the rank, side, and the position of the piece as
+  inputs."""
     def __init__(self, row, col, color):
         super().__init__(row, col, color)
 
@@ -373,9 +388,10 @@ class Elephant(Piece):
         return f"E{'R' if self._color == RED else 'B'}"
 
 
-# 车
-class Chariot(Piece):
 
+class Chariot(Piece):
+    """The Piece class takes the rank, side, and the position of the piece as
+  inputs."""
     def __init__(self, row, col, color):
         super().__init__(row, col, color)
 
@@ -418,9 +434,10 @@ class Chariot(Piece):
         return f"C{'R' if self._color == RED else 'B'}"
 
 
-# 炮
-class Cannon(Piece):
 
+class Cannon(Piece):
+    """The Piece class takes the rank, side, and the position of the piece as
+  inputs."""
     def __init__(self, row, col, color):
         super().__init__(row, col, color)
 
@@ -474,9 +491,10 @@ class Cannon(Piece):
         return f"P{'R' if self._color == RED else 'B'}"
 
 
-# 卒
-class Soldier(Piece):
 
+class Soldier(Piece):
+    """The Piece class takes the rank, side, and the position of the piece as
+  inputs."""
     def __init__(self, row, col, color):
         super().__init__(row, col, color)
 
