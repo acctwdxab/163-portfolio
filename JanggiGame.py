@@ -1,4 +1,4 @@
-# Dan Wu
+
 # 3/10/2021
 # Project -  Create a JanggiGame, including the starting position of the pieces, and the 9×10 gameboard.
 
